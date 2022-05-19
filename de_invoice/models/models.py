@@ -7,7 +7,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
     
     account_move_id = fields.Many2one('account.move', string='Journal Entry', copy=False, readonly=True)
-    
+    invoiced_flag = fields.Boolean(string="Invoiced")
     def action_create_plot_invoice(self):
         if not self.partner_id.id:
             raise UserError(_("The partner must be set"))
@@ -72,6 +72,7 @@ class SaleOrder(models.Model):
             'invoice_line_ids':lines_data,
         })
         self.account_move_id._post()
+        self.invoiced_flag = True
         return invoice
     
     

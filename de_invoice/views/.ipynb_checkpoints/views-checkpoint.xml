@@ -9,6 +9,7 @@
                          <button name="action_create_plot_invoice"
                             string="Create Invoice A"
                             type="object"
+                            attrs="{'invisible': [('invoiced_flag', '=', True)]}"
                             class="oe_highlight"
                             />
                 </xpath>
@@ -18,6 +19,8 @@
                             <group>
                                     <group>
                                         <field name="account_move_id"/>
+                                        <field name="invoiced_flag" invisible="1"/>
+                                        
                                     </group>
                                     <group>
                                     </group>
