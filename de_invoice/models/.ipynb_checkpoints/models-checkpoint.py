@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from json import dumps
+
+import ast
+import json
+import re
+import warnings
 
 
 class SaleOrder(models.Model):
@@ -58,6 +64,7 @@ class SaleOrder(models.Model):
                 'quantity': 1,
             }])
             
+        
         self.account_move_id = invoice.create({
             'move_type': 'out_invoice',
             'invoice_date': fields.Datetime.now(),
@@ -66,6 +73,7 @@ class SaleOrder(models.Model):
             'invoice_origin': self.name,
             'narration': self.name,
             'payment_reference': self.reference,
+            'invoice_payment_term_id': self.payment_term_id.id,
             'partner_bank_id': self.company_id.partner_id.bank_ids[:1].id,
             'invoice_user_id': self.user_id.id,
             'dealer_id':self.dealer_id.id or False,
@@ -82,3 +90,76 @@ class AccountAccount(models.Model):
     
     process =  fields.Boolean(string='Process')
     membership =  fields.Boolean(string='Membership')
+    
+    
+    
+# class AcountMove(models.Model):
+#     _inherit = "account.move"
+    
+    
+    
+#     def _compute_payments_widget_to_reconcile_info(self):
+#         for move in self:
+#             move.invoice_outstanding_credits_debits_widget = json.dumps(False)
+#             move.invoice_has_outstanding = False
+
+#             if move.state != 'posted' \
+#                     or move.payment_state not in ('not_paid', 'partial') \
+#                     or not move.is_invoice(include_receipts=True):
+#                 continue
+
+#             pay_term_lines = move.line_ids\
+#                 .filtered(lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+
+#             domain = [
+#                 ('account_id', 'in', pay_term_lines.account_id.ids),
+#                 ('parent_state', '=', 'posted'),
+#                 ('partner_id', '=', move.commercial_partner_id.id),
+#                 ('reconciled', '=', False),
+#                 ('invoice_origin','=', self.env['account.payment'].search([('order_id', '=', 'move.invoice_origin')])),
+#                 '|', ('amount_residual', '!=', 0.0), ('amount_residual_currency', '!=', 0.0),
+#             ]
+
+#             payments_widget_vals = {'outstanding': True, 'content': [], 'move_id': move.id}
+
+#             if move.is_inbound():
+#                 domain.append(('balance', '<', 0.0))
+#                 payments_widget_vals['title'] = _('Outstanding credits')
+#             else:
+#                 domain.append(('balance', '>', 0.0))
+#                 payments_widget_vals['title'] = _('Outstanding debits')
+
+#             for line in self.env['account.move.line'].search(domain):
+
+#                 if line.currency_id == move.currency_id:
+#                     # Same foreign currency.
+#                     amount = abs(line.amount_residual_currency)
+#                 else:
+#                     # Different foreign currencies.
+#                     amount = move.company_currency_id._convert(
+#                         abs(line.amount_residual),
+#                         move.currency_id,
+#                         move.company_id,
+#                         line.date,
+#                     )
+
+#                 if move.currency_id.is_zero(amount):
+#                     continue
+
+#                 payments_widget_vals['content'].append({
+#                     'journal_name': line.ref or line.move_id.name,
+#                     'amount': amount,
+#                     'currency': move.currency_id.symbol,
+#                     'id': line.id,
+#                     'move_id': line.move_id.id,
+#                     'position': move.currency_id.position,
+#                     'digits': [69, move.currency_id.decimal_places],
+#                     'date': fields.Date.to_string(line.date),
+#                     'account_payment_id': line.payment_id.id,
+#                 })
+
+#             if not payments_widget_vals['content']:
+#                 continue
+
+#             move.invoice_outstanding_credits_debits_widget = json.dumps(payments_widget_vals)
+#             move.invoice_has_outstanding = True
