@@ -53,11 +53,12 @@ class UniqPlotResellWizard(models.TransientModel):
             membership_fee_payment=self.env['account.payment'].search([('order_id','=',prd_line.booking_id.id),('plot_id','=',prd_line.id),('membership_fee_submit','=', True),('amount','=',prd_line.categ_id.allottment_fee)] ,limit=1)
             membership_fee_payment.update({
                'order_id':booking.id,
+               'partner_id':self.partner_id.id, 
             })
             if fee_payment:
                 if self.is_process_fee==True:
                     booking.update({
-                      'processing_fee_submit':True,
+                      'processing_fee_submit':False,
                     })
             prd_line.update({
                 'booking_id': booking.id,

@@ -1,0 +1,48 @@
+<odoo>
+  <data>
+      <record id="sale_order_view_form_inheritaaa" model="ir.ui.view">
+         <field name="name">sale.order.form.inherit.invoice</field>
+         <field name="model">sale.order</field>
+         <field name="inherit_id" ref="sale.view_order_form" />
+         <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                         <button name="action_create_plot_invoice"
+                            string="Create Invoice A"
+                            type="object"
+                            class="oe_highlight"
+                            />
+                </xpath>
+             <xpath expr="//page[@name='other_information']" position="after">
+                    <notebook string="Accounting">
+                        <page name="accounting_b" string="Accounting">
+                            <group>
+                                    <group>
+                                        <field name="account_move_id"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                        </page>
+                    </notebook>
+                </xpath>
+         </field>
+    </record>
+      
+      
+       <record id="view_account_form_inheritaaa" model="ir.ui.view">
+           <field name="name">account.account.form.inherit.invoice</field>
+           <field name="model">account.account</field>
+           <field name="inherit_id" ref="account.view_account_form" />
+           <field name="arch" type="xml">
+               <xpath expr="//field[@name='deprecated']" position="after">
+                   <field name="process"/>
+                   <field name="membership"/>
+                </xpath>
+               
+           </field>
+      </record>
+             
+           
+      
+  </data>
+</odoo>

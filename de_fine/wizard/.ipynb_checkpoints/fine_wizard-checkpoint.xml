@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+   <record id="view_register_pay_wizard_inherit_prepayment" model="ir.ui.view">
+            <field name="name">view.register.pay.wizard.inherit.prepayment</field>
+            <field name="model">register.pay.wizard</field>
+            <field name="inherit_id" ref="de_property_payments.view_register_pay_wizard_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="before">
+                    <field name="fine_amount"/>
+                </xpath>
+               
+                 
+            </field>
+        </record>
+    
+
+  </data>
+</odoo>
