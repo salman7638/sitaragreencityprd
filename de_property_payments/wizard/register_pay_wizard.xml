@@ -20,7 +20,7 @@
                            <field name="remarks" />
                       </group>
                       <group>
-                          <field name="type"  />
+                          <field name="type"  readonly='1'/>
                           <field name="journal_id"  string='Bank' />
                            <field name="check_number" />
                           <field name="sale_id"  invisible='1'/>                          

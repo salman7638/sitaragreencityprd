@@ -32,7 +32,7 @@ class PlotResellWizard(models.TransientModel):
         })
         if self.is_membership_fee==True:    
             self.sale_id.update({
-               'membership_fee_submit':  False,
+               'processing_fee_submit':  False,
             })    
         payments=self.env['account.payment'].search([('order_id','=',self.sale_id.id)])        
         for prd_line in self.sale_id.order_line:

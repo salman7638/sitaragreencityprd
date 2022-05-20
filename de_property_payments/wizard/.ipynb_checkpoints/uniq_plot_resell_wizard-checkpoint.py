@@ -44,7 +44,9 @@ class UniqPlotResellWizard(models.TransientModel):
             'date_order': self.resell_date,
         }
         booking = self.env['sale.order'].create(booking_vals)
-        for prd_line in self.product_ids:
+        for prd_line in self.product_ids:            
+            if prd_line.booking_id.installment_created==True:
+                raise UserError('You are not Allow Resell plot!')
             fee_payment=self.env['account.payment'].search([('order_id','=',prd_line.booking_id.id),('plot_id','=',prd_line.id),('processing_fee_submit','=',True),('amount','=',prd_line.categ_id.process_fee)] ,limit=1)
             fee_payment.update({
                'order_id':booking.id,
@@ -92,32 +94,37 @@ class UniqPlotResellWizard(models.TransientModel):
         payment_list.append(membership_fee_payment.id)
         uniq_batch_journal_list = set(batch_journal_list)
         unique_batch_list = set(batch_list)
-        for uniq_batch in uniq_batch_journal_list:
-            if uniq_batch!=False:
-                total_b_pay = 0
-                final_payment_list = []
-                batch_pay = self.env['account.payment'].search([('id','in', payment_list),('journal_id','=',uniq_batch)])
-                for b_pay in batch_pay:
-                    final_payment_list.append(b_pay.id)
-                    total_b_pay += b_pay.amount    
-                batch_vals = {
-                    'batch_type': 'inbound',
-                    'journal_id': uniq_batch,
-                    'partner_id':  self.partner_id.id,
-                    'narration':  ' Customer Payments '+ str(total_b_pay) +' - '+ str(self.partner_id.name),  
-                    'order_id': booking.id,
-                    'date': fields.date.today(),
-                    'state': 'reconciled',
-                } 
-                batch=self.env['account.batch.payment'].create(batch_vals)
-                batch.update({
-                    'state': 'reconciled',
-                })
-                batch.payment_ids=final_payment_list
-                batch.update({
-                   'state': 'reconciled',
-                })
-                
+        for uniq_check_num in unique_batch_list:
+            for uniq_batch in uniq_batch_journal_list:
+                if uniq_batch!=False:
+                    total_b_pay = 0
+                    final_payment_list = []
+                    batch_pay = self.env['account.payment'].search([('id','in', payment_list),('journal_id','=',uniq_batch),('batch_payment_id','=',uniq_check_num)])
+                    if batch_pay:
+                        check_number = ''
+                        for b_pay in batch_pay:
+                            check_number = b_pay.ref
+                            final_payment_list.append(b_pay.id)
+                            total_b_pay += b_pay.amount    
+                        batch_vals = {
+                            'batch_type': 'inbound',
+                            'journal_id': uniq_batch,
+                            'partner_id':  self.partner_id.id,
+                            'check_number':  check_number ,
+                            'narration':  ' Customer Payments '+ str(total_b_pay) +' - '+ str(self.partner_id.name),  
+                            'order_id': booking.id,
+                            'date': fields.date.today(),
+                            'state': 'reconciled',
+                        } 
+                        batch=self.env['account.batch.payment'].create(batch_vals)
+                        batch.update({
+                            'state': 'reconciled',
+                        })
+                        batch.payment_ids=final_payment_list
+                        batch.update({
+                           'state': 'reconciled',
+                        })
+
         for unique_batch in unique_batch_list:
             batch_paym=self.env['account.batch.payment'].search([('id','=', unique_batch)])
             batch_paym.update({
