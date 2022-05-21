@@ -46,6 +46,15 @@ class UniqPlotResellWizard(models.TransientModel):
         booking = self.env['sale.order'].create(booking_vals)
         for prd_line in self.product_ids:            
             if prd_line.booking_id.installment_created==True:
+                percent_amt = round((prd_line.list_price/prd_line.booking_id.amount_total),2)
+                for installment_line in prd_line.booking_id.installment_line_ids:
+                   installment_line.update({
+                       'total_amount':  installment_line.total_amount - (installment_line.total_amount/100)*percent_amt,
+                       'total_actual_amount': installment_line.total_actual_amount -(installment_line.total_actual_amount/100)*percent_amt,
+                       'total_paid': installment_line.total_paid -(installment_line.total_paid/100)*percent_amt,
+                       'amount_residual': installment_line.amount_residual-(installment_line.amount_residual/100)*percent_amt,
+                   }) 
+                
                 raise UserError('You are not Allow Resell plot!')
             fee_payment=self.env['account.payment'].search([('order_id','=',prd_line.booking_id.id),('plot_id','=',prd_line.id),('processing_fee_submit','=',True),('amount','=',prd_line.categ_id.process_fee)] ,limit=1)
             fee_payment.update({

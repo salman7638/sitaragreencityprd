@@ -27,8 +27,7 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
     
     reseller_ids = fields.One2many('uniq.reseller.line', 'product_id', string='Resellers')
-    
-    
+
     
     
 class UniqPlotsReseller(models.Model):

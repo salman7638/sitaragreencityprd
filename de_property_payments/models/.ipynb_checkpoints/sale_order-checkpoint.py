@@ -102,12 +102,17 @@ class SaleOrder(models.Model):
     @api.depends('amount_paid', 'amount_residual','installment_amount_residual','booking_amount_residual','allotment_amount_residual','received_percent')
     def _compute_property_amount(self):
         for line in self:
-            total_paid_amount=0
+            total_paid_amount = 0
             total_processing_fee = 0 
             total_membership_fee = 0
             for order_line in line.order_line:
-                total_processing_fee += order_line.product_id.categ_id.process_fee
+                processing_payments=self.env['account.payment'].search([('plot_id','=',order_line.product_id.id),('order_id','=',line.id),('processing_fee_submit','=',True)])
+                for process_fee in processing_payments:
+                    total_processing_fee += process_fee.amount
+                if self.processing_fee_submit==False:
+                    total_processing_fee += order_line.product_id.categ_id.process_fee
                 total_membership_fee += order_line.product_id.categ_id.allottment_fee
+
             residual_amount=0
             if line.amount_residual<=0:
                 for order_line in line.order_line:
