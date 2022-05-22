@@ -9,12 +9,12 @@
                     <group>
                         
                        <group>
-                            <field name="date_from" />
+                            <field name="date_from" invisible="1" />
                             <field name="type" />
                       </group>
                         
                       <group>
-                          <field name="date_to" />
+                          <field name="date_to" invisible="1"  />
                       </group>                        
                         
                     </group>

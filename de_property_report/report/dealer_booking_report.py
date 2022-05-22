@@ -52,13 +52,13 @@ class DealerReportXlS(models.AbstractModel):
             gtotal_amount_residual = 0
             row = 3
             dealer_list = []
-            dealer_plots = self.env['product.product'].search([('state','in',('unconfirm','reserved','booked','un_posted_sold','posted_sold')),('date_validity', '>=' , docs.date_from),('date_validity', '<=' , docs.date_to),('partner_id.active_dealer','=', True) ])
+            dealer_plots = self.env['product.product'].search([('state','in',('unconfirm','reserved','booked','un_posted_sold','posted_sold')),('partner_id.active_dealer','=', True) ])
             for dealer in dealer_plots: 
                 dealer_list.append(dealer.partner_id.id)  
             uniq_dealer_list = set(dealer_list)  
             summary_sr_no = 1
             for uniq_dealer in uniq_dealer_list:
-                dealer_plots_details = self.env['product.product'].search([('state','in',('unconfirm','reserved','booked','un_posted_sold','posted_sold')),('date_validity', '>=' , docs.date_from),('date_validity', '<=' , docs.date_to),('partner_id','=', uniq_dealer) ])
+                dealer_plots_details = self.env['product.product'].search([('state','in',('unconfirm','reserved','booked','un_posted_sold','posted_sold')),('partner_id','=', uniq_dealer) ])
                 dealer_vals = self.env['res.partner'].search([('id','=',uniq_dealer)], limit=1)
                 number_of_plots = 0
                 number_of_plots_marlas = 0

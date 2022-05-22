@@ -8,8 +8,8 @@ class DealerReportWizard(models.Model):
     _description = 'Dealer Report Wizard'
     
     
-    date_from = fields.Date(string='Date From', required=True)
-    date_to = fields.Date(string='Date To', required=True)
+    date_from = fields.Date(string='Date From', required=True,default=fields.date.today())
+    date_to = fields.Date(string='Date To', required=True,default=fields.date.today())
     type = fields.Selection([
         ('summary', 'Summary'),
         ('detail', 'Detail'),
