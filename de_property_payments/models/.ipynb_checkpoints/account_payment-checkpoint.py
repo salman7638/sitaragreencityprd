@@ -6,7 +6,7 @@ class AccountPayment(models.Model):
     
     order_id = fields.Many2one('sale.order', string='Order')
     plot_id = fields.Many2one('product.product', string='plot')
-    processing_fee_submit = fields.Boolean(string='Processing Fee Submitted')
+    processing_fee_submit = fields.Boolean(string='Processing Fee Submitted', default=False)
     membership_fee_submit = fields.Boolean(string='Membership Fee Submitted')
     installment_id = fields.Many2one('order.installment.line', string='Order Installment')
     remarks = fields.Char(string='Remarks')    

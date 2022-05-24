@@ -52,6 +52,7 @@ class RegisterPayWizard(models.TransientModel):
         batch_payment_list=[]
         total_advance_remaining_amt=self.sale_id.booking_amount_residual + self.sale_id.allotment_amount_residual
         if self.processing_fee==True:
+            
             processing_fee_amount=0
             self.sale_id.update({
                'processing_fee_submit': True 
@@ -70,12 +71,11 @@ class RegisterPayWizard(models.TransientModel):
                      'payment_type': 'inbound',
                      'order_id': self.sale_id.id,
                      'plot_id': o_line.product_id.id,
-                     
                      'type': 'fee',
                      'processing_fee_submit': True,
                      }
                     record = self.env['account.payment'].sudo().create(vals)
-                    record.action_post()
+                    record.action_post()                    
                     batch_payment_list.append(record.id)
         if self.membership_fee==True:
             membership_fee_amount=0
@@ -112,6 +112,7 @@ class RegisterPayWizard(models.TransientModel):
                 difference_amount +=  devision_prct - rorder_amount_residual 
                 devision_prct = rorder_amount_residual
                 reconcile_list.append(rorder.id)   
+            #raise UserError(str(devision_prct))    
             vals = {
                 'partner_id': self.partner_id.id,
                 'date': self.date,
@@ -127,6 +128,10 @@ class RegisterPayWizard(models.TransientModel):
                 }
             record_pay = self.env['account.payment'].sudo().create(vals)
             record_pay.action_post()
+            record_pay.update({
+                 'membership_fee_submit': False,
+                 'processing_fee_submit': False,
+            })
             batch_payment_list.append(record_pay.id)
             for intial_line in self.sale_id.order_line:
                 if rorder.id==intial_line.id :                     
@@ -157,6 +162,10 @@ class RegisterPayWizard(models.TransientModel):
                         }
                     record_pay = self.env['account.payment'].sudo().create(vals)
                     record_pay.action_post()
+                    record_pay.update({
+                     'membership_fee_submit': False,
+                     'processing_fee_submit': False,
+                    })
                     batch_payment_list.append(record_pay.id)
                     for df_line in self.sale_id.order_line:
                         if diff_order.id==df_line.id :
@@ -184,6 +193,10 @@ class RegisterPayWizard(models.TransientModel):
                         }
                     record_pay = self.env['account.payment'].sudo().create(vals)
                     record_pay.action_post()
+                    record_pay.update({
+                      'membership_fee_submit': False,
+                      'processing_fee_submit': False,
+                    })
                     batch_payment_list.append(record_pay.id)
                     difference_amount =  0 
                     for diff_o_line in self.sale_id.order_line:
