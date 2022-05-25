@@ -101,6 +101,9 @@ class RegisterPayWizard(models.TransientModel):
                     record = self.env['account.payment'].sudo().create(vals)
                     record.action_post()
                     batch_payment_list.append(record.id)
+                    record.update({
+                     'processing_fee_submit': False,
+                    })
 
         difference_amount = 0 
         reconcile_list = []
