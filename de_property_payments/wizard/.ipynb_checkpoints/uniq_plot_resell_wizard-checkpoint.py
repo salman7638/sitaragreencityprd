@@ -51,11 +51,9 @@ class UniqPlotResellWizard(models.TransientModel):
                    installment_line.update({
                        'total_amount':  installment_line.total_amount - (installment_line.total_amount/100)*percent_amt,
                        'total_actual_amount': installment_line.total_actual_amount -(installment_line.total_actual_amount/100)*percent_amt,
-                       'total_paid': installment_line.total_paid -(installment_line.total_paid/100)*percent_amt,
+                       'amount_paid': installment_line.amount_paid -(installment_line.amount_paid/100)*percent_amt,
                        'amount_residual': installment_line.amount_residual-(installment_line.amount_residual/100)*percent_amt,
-                   }) 
-                
-                raise UserError('You are not Allow Resell plot!')
+                   })    
             fee_payment=self.env['account.payment'].search([('order_id','=',prd_line.booking_id.id),('plot_id','=',prd_line.id),('processing_fee_submit','=',True),('amount','=',prd_line.categ_id.process_fee)] ,limit=1)
             fee_payment.update({
                'order_id':booking.id,
@@ -71,10 +69,14 @@ class UniqPlotResellWizard(models.TransientModel):
                     booking.update({
                       'processing_fee_submit':False,
                     })
+                elif self.is_process_fee==False:
+                    booking.update({
+                      'processing_fee_submit':True,
+                      'membership_fee_submit':True,  
+                    })    
             prd_line.update({
                 'booking_id': booking.id,
             })
-            
             line_vals = {
                 'order_id': booking.id,
                 'product_id': prd_line.id,
@@ -103,12 +105,13 @@ class UniqPlotResellWizard(models.TransientModel):
         payment_list.append(membership_fee_payment.id)
         uniq_batch_journal_list = set(batch_journal_list)
         unique_batch_list = set(batch_list)
+        raise UserError(str(payment_list))
         for uniq_check_num in unique_batch_list:
             for uniq_batch in uniq_batch_journal_list:
                 if uniq_batch!=False:
                     total_b_pay = 0
                     final_payment_list = []
-                    batch_pay = self.env['account.payment'].search([('id','in', payment_list),('journal_id','=',uniq_batch),('batch_payment_id','=',uniq_check_num)])
+                    batch_pay = self.env['account.payment'].search([('id','in', payment_list),('journal_id','=',uniq_batch),('batch_payment_id','=',uniq_check_num),('state','=','posted')])
                     if batch_pay:
                         check_number = ''
                         for b_pay in batch_pay:
