@@ -187,7 +187,7 @@ class ProjectCostSheetMaterialLine(models.Model):
     def _compute_qty_received(self):
         for line in self:
             received_qty = 0.0
-            purchases=self.env['purchase.order'].search([('poject_id', '=', line.project_cost_sheet_id.project_id.id),('tast_id','=',line.project_cost_sheet_id.task_ids.id)])
+            purchases=self.env['purchase.order'].search([('poject_id', '=', line.project_cost_sheet_id.project_id.id),('task_id','=',line.project_cost_sheet_id.task_ids.id)])
             for po_line in purchases.order_line:
                 received_qty  += po_line.qty_received
             line.qty_received = received_qty    
