@@ -227,7 +227,7 @@ class PlotStatusXlS(models.AbstractModel):
             sheet.write(row, 8, '{0:,}'.format(int(round(phase_grand_reserve_total_number_of_plots))), header_row_style)
             sheet.write(row, 9, round(phase_grand_reserve_total_number_of_marlas,2), header_row_style)
             sheet.write(row, 10, '{0:,}'.format(int(round(phase_grand_booked_total_number_of_plots))), header_row_style)
-            sheet.write(row, 11, round(phase_grand_booked_total_number_of_plots,2), header_row_style)
+            sheet.write(row, 11, round(phase_grand_booked_total_number_of_marlas,2), header_row_style)
             sheet.write(row, 12, '{0:,}'.format(int(round(phase_grand_sold_total_number_of_plots))), header_row_style)
             sheet.write(row, 13, round(phase_grand_sold_total_number_of_marlas,2), header_row_style)
 #             sheet.write(row, 14, '{0:,}'.format(int(round(phase_grand_all_sold_total_number_of_plots))), header_row_style)
