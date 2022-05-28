@@ -181,10 +181,14 @@ class PlotStatusXlS(models.AbstractModel):
             phase_grand_total_number_of_marlas += grand_total_number_of_marlas
             sheet.write(row, 4, '{0:,}'.format(int(round(grand_available_total_number_of_plots))), header_row_style)
             phase_grand_available_total_number_of_plots += grand_available_total_number_of_plots
+            
+            
             sheet.write(row, 5, round(grand_available_total_number_of_marlas,2), header_row_style)
             phase_grand_available_total_number_of_marlas += grand_available_total_number_of_marlas
+            
             sheet.write(row, 6, '{0:,}'.format(int(round(grand_unconfirm_total_number_of_plots))), header_row_style)
             phase_grand_unconfirm_total_number_of_plots += grand_unconfirm_total_number_of_plots
+            
             sheet.write(row, 7, round(grand_unconfirm_total_number_of_marlas,2), header_row_style)
             phase_grand_unconfirm_total_number_of_marlas += grand_unconfirm_total_number_of_marlas
             sheet.write(row, 8, '{0:,}'.format(int(round(grand_reserve_total_number_of_plots))), header_row_style)
@@ -212,6 +216,7 @@ class PlotStatusXlS(models.AbstractModel):
             sheet.write(row, 2, '{0:,}'.format(int(round(phase_grand_total_number_of_plots))), header_row_style)
             sheet.write(row, 3, round(phase_grand_total_number_of_marlas,2), header_row_style)
             sheet.write(row, 4, '{0:,}'.format(int(round(phase_grand_available_total_number_of_plots))), header_row_style) 
+            
             sheet.write(row, 5, round(phase_grand_available_total_number_of_marlas,2), header_row_style) 
             sheet.write(row, 6, '{0:,}'.format(int(round(phase_grand_unconfirm_total_number_of_plots))), header_row_style)
             sheet.write(row, 7, round(phase_grand_unconfirm_total_number_of_marlas,2), header_row_style)
