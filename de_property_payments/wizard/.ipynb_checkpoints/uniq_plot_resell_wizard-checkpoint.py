@@ -93,19 +93,19 @@ class UniqPlotResellWizard(models.TransientModel):
                     'date': fields.date.today(),
                     'state': 'reconciled',
                 } 
-                batch=self.env['account.batch.payment'].create(batch_vals)
-                batch.update({
+                batch_pay=self.env['account.batch.payment'].create(batch_vals)
+                batch_pay.update({
                     'state': 'reconciled',
                 })
-                batch.payment_ids=final_payment_list
+                batch_pay.payment_ids=final_payment_list
+                batch_pay.update({
+                   'state': 'reconciled',
+                })
                 batch.update({
                    'state': 'reconciled',
                 })
                 
                 
-            prd_line.update({
-                    'booking_id': booking.id,
-                })
-
+            
        
             
