@@ -52,17 +52,34 @@ class PlotStatusXlS(models.AbstractModel):
         sheet.write(2,1 , 'Category',header_row_style)
         sheet.write(2,2 , 'No Of Plots',header_row_style)
         sheet.write(2,3 , "Total Marla's",header_row_style)
-        sheet.write(2,4 , "Plots Price's",header_row_style)
+        sheet.write(2,4 , "Sale Price",header_row_style)
         sheet.write(2,5 , 'Cofrimed Plots Sale',header_row_style) 
         sheet.write(2,6 , "Booked Plots Sale",header_row_style)
         sheet.write(2,7 , 'Sold Plots Sale',header_row_style)
-        sheet.write(2,8 , "Confirm Plots",header_row_style)
-        sheet.write(2,9 , "Confirm Plots Marla's",header_row_style)
+        sheet.write(2,8 , "Confirmed Plots",header_row_style)
+        sheet.write(2,9 , "Confirmed Plots Marla's",header_row_style)
         sheet.write(2,10 , "Booked Plots", header_row_style)
         sheet.write(2,11 , "Booked Plots Marla's", header_row_style)
         sheet.write(2,12 , "Sold Plots", header_row_style)
         sheet.write(2,13 , "Sold Plots Marla's", header_row_style)
         row = 3
+        
+        
+        
+        phase_grand_total_number_of_plots = 0
+        phase_grand_total_number_of_marlas = 0
+        phase_grand_available_total_number_of_plots = 0
+        phase_grand_available_total_number_of_marlas = 0
+        phase_grand_unconfirm_total_number_of_plots = 0
+        phase_grand_unconfirm_total_number_of_marlas = 0
+        phase_grand_reserve_total_number_of_plots = 0
+        phase_grand_reserve_total_number_of_marlas = 0
+        phase_grand_booked_total_number_of_plots = 0
+        phase_grand_booked_total_number_of_marlas = 0
+        phase_grand_sold_total_number_of_plots = 0
+        phase_grand_sold_total_number_of_marlas = 0
+        phase_grand_all_sold_total_number_of_plots = 0
+        phase_grand_all_sold_total_number_of_marlas = 0
         for phase in uniq_location_list:
             phase_count=0
             grand_total_number_of_plots = 0
@@ -105,7 +122,7 @@ class PlotStatusXlS(models.AbstractModel):
                     total_number_of_plots += 1
                     total_number_of_marlas += pl.plot_area_marla
                     total_number_of_plot_price += pl.list_price
-    
+                   
                     if pl.state=='reserved':
                         reserve_total_number_of_plots += 1
                         reserve_total_number_of_marlas += pl.plot_area_marla
@@ -129,6 +146,7 @@ class PlotStatusXlS(models.AbstractModel):
                 grand_total_number_of_plots += total_number_of_plots
                 sheet.write(row, 3, round(total_number_of_marlas,2), format2)
                 grand_total_number_of_marlas += total_number_of_marlas
+                
                 sheet.write(row, 4, round(total_number_of_plot_price,2), format2)
                 grand_total_number_of_plot_price += total_number_of_plot_price
                 
@@ -157,21 +175,61 @@ class PlotStatusXlS(models.AbstractModel):
             sheet.write(row, 0, str(), header_row_style)
             sheet.write(row, 1, str(), header_row_style) 
             sheet.write(row, 2, '{0:,}'.format(int(round(grand_total_number_of_plots))), header_row_style)
-            sheet.write(row, 3, round(grand_total_number_of_marlas,2), header_row_style)
-            sheet.write(row, 4, '{0:,}'.format(int(round(grand_total_number_of_plot_price))), header_row_style)
-            sheet.write(row, 5, '{0:,}'.format(int(round(grand_total_number_of_reserved_price))), header_row_style)
-            sheet.write(row, 6, '{0:,}'.format(int(round(grand_total_number_of_booked_price))), header_row_style)
-            sheet.write(row, 7, '{0:,}'.format(int(round(grand_total_number_of_sold_price))), header_row_style)
-#             sheet.write(row, 8, '{0:,}'.format(int(round(grand_available_total_number_of_plots))), header_row_style)
+            phase_grand_total_number_of_plots += grand_total_number_of_plots
             
-#             sheet.write(row, 9, round(grand_available_total_number_of_marlas,2), header_row_style) 
-#             sheet.write(row, 8, '{0:,}'.format(int(round(grand_unconfirm_total_number_of_plots))), header_row_style)
-#             sheet.write(row, 8, round(grand_unconfirm_total_number_of_marlas), header_row_style)
+            sheet.write(row, 3, round(grand_total_number_of_marlas,2), header_row_style)
+            phase_grand_total_number_of_marlas += grand_total_number_of_marlas
+            
+            sheet.write(row, 4, '{0:,}'.format(int(round(grand_total_number_of_plot_price))), header_row_style)
+            phase_grand_available_total_number_of_plots += grand_total_number_of_plot_price
+                
+                
+            sheet.write(row, 5, '{0:,}'.format(int(round(grand_total_number_of_reserved_price))), header_row_style)
+            phase_grand_available_total_number_of_marlas += grand_total_number_of_reserved_price
+            
+            
+            sheet.write(row, 6, '{0:,}'.format(int(round(grand_total_number_of_booked_price))), header_row_style)
+            phase_grand_unconfirm_total_number_of_plots += grand_total_number_of_booked_price
+            
+            sheet.write(row, 7, '{0:,}'.format(int(round(grand_total_number_of_sold_price))), header_row_style)
+            phase_grand_unconfirm_total_number_of_marlas += grand_total_number_of_sold_price
+
             sheet.write(row, 8, '{0:,}'.format(int(round(grand_reserve_total_number_of_plots))), header_row_style)
+            phase_grand_reserve_total_number_of_plots += grand_reserve_total_number_of_plots
+
             sheet.write(row, 9, round(grand_reserve_total_number_of_marlas,2), header_row_style)
+            phase_grand_reserve_total_number_of_marlas += grand_reserve_total_number_of_marlas
+
             sheet.write(row, 10, '{0:,}'.format(int(round(grand_booked_total_number_of_plots))), header_row_style)
+            phase_grand_booked_total_number_of_plots += grand_booked_total_number_of_plots
+            
+            
             sheet.write(row, 11, round(grand_booked_total_number_of_marlas,2), header_row_style)
+            phase_grand_booked_total_number_of_marlas += grand_booked_total_number_of_marlas
+
             sheet.write(row, 12, '{0:,}'.format(int(round(grand_sold_total_number_of_plots))), header_row_style)
+            phase_grand_sold_total_number_of_plots += grand_sold_total_number_of_plots
+
             sheet.write(row, 13, round(grand_sold_total_number_of_marlas,2), header_row_style)
+            phase_grand_sold_total_number_of_marlas += grand_sold_total_number_of_marlas
             row += 1
+            
+            sheet.write(row, 0, 'Grand Total', header_row_style)
+            sheet.write(row, 1, str(), header_row_style) 
+            sheet.write(row, 2, '{0:,}'.format(int(round(phase_grand_total_number_of_plots))), header_row_style)
+            
+            sheet.write(row, 3, round(phase_grand_total_number_of_marlas,2), header_row_style)
+            sheet.write(row, 4, '{0:,}'.format(int(round(phase_grand_available_total_number_of_plots))), header_row_style) 
+            
+            sheet.write(row, 5, round(phase_grand_available_total_number_of_marlas,2), header_row_style) 
+            sheet.write(row, 6, '{0:,}'.format(int(round(phase_grand_unconfirm_total_number_of_plots))), header_row_style)
+            sheet.write(row, 7, round(phase_grand_unconfirm_total_number_of_marlas,2), header_row_style)
+            sheet.write(row, 8, '{0:,}'.format(int(round(phase_grand_reserve_total_number_of_plots))), header_row_style)
+            sheet.write(row, 9, round(phase_grand_reserve_total_number_of_marlas,2), header_row_style)
+            sheet.write(row, 10, '{0:,}'.format(int(round(phase_grand_booked_total_number_of_plots))), header_row_style)
+            sheet.write(row, 11, round(phase_grand_booked_total_number_of_marlas,2), header_row_style)
+            sheet.write(row, 12, '{0:,}'.format(int(round(phase_grand_sold_total_number_of_plots))), header_row_style)
+            sheet.write(row, 13, round(phase_grand_sold_total_number_of_marlas,2), header_row_style)
+#             sheet.write(row, 14, '{0:,}'.format(int(round(phase_grand_all_sold_total_number_of_plots))), header_row_style)
+#             sheet.write(row, 15, round(phase_grand_all_sold_total_number_of_marlas,2), header_row_style)
             
