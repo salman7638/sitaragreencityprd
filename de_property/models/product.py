@@ -118,7 +118,7 @@ class ProductTemplate(models.Model):
     state = fields.Selection(selection=[
             ('available', 'Available'),
             ('unconfirm', 'Un-Confirm'),
-            ('reserved', 'Reserved'),
+            ('reserved', 'Token'),
             ('booked', 'Booked'),
             ('un_posted_sold', 'Un-Posted Sold'),
             ('posted_sold', 'Posted Sold'),
