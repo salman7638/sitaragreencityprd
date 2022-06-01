@@ -3,7 +3,7 @@
   <template id="payment_schedule_office_report">
     <t t-call="web.html_container">
     <t t-call="web.external_layout">
-        <div class="page" style='font-size:12px;'>
+        <div class="page" style='font-size:10px;'>
             <div class="oe_structure"/>
              <div  class='pull-right' style="max-width: 250px;height: 20px; color:blue;margin:5px;">
                <strong>Printed On:</strong>
@@ -71,8 +71,7 @@
                     </tr>
                     </t>
             </table>
-            <br/>
-            <br/>
+            
             <div class="row">
                  <div class='col-4'>
             <table class="table table-bordered">
@@ -277,7 +276,7 @@
     <template id="payment_schedule_customer_report">
     <t t-call="web.html_container">
     <t t-call="web.external_layout">
-        <div class="page" style='font-size:12px;'>
+        <div class="page" style='font-size:10px;'>
             <div class="oe_structure"/>
              <div  class='pull-right' style="max-width: 250px;height: 20px; color:blue;margin:5px;">
                <strong>Printed On:</strong>
@@ -345,8 +344,7 @@
                     </tr>
                     </t>
             </table>
-         <br/>
-            <br/>
+         
             <div class="row">
                  <div class='col-4'>
             <table class="table table-bordered">
