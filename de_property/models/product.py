@@ -120,7 +120,7 @@ class ProductTemplate(models.Model):
             ('unconfirm', 'Un-Confirm'),
             ('reserved', 'Token'),
             ('booked', 'Booked'),
-            ('un_posted_sold', 'Un-Posted Sold'),
+            ('un_posted_sold', 'Alloted'),
             ('posted_sold', 'Posted Sold'),
         ], string='Status', required=True, readonly=True, copy=False, tracking=True,
         default='available')    

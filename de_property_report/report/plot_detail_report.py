@@ -22,19 +22,19 @@ class PlotDetailXlS(models.AbstractModel):
         
         if docs.type=='available': 
             sheet.write('C1:D1', 'SITARA GREEN CITY' ,title)
-            sheet.write('C2:D2', 'DETAIL OF AVAILABLE PLOTS' ,title)
+            sheet.write('C2:D2', ' AVAILABLE PLOTS' ,title)
         elif docs.type=='unconfirm': 
             sheet.write('C1:D1', 'SITARA GREEN CITY' ,title)
-            sheet.write('C2:D2', 'DETAIL OF UNCONFIRMED RESERVE PLOTS' ,title)
+            sheet.write('C2:D2', 'UNCONFIRMED RESERVE PLOTS' ,title)
         elif docs.type=='reserved': 
             sheet.write('C1:D1', 'SITARA GREEN CITY' ,title)
-            sheet.write('C2:D2', 'DETAIL OF CONFIRMED RESERVE PLOTS' ,title)
+            sheet.write('C2:D2', 'TOKEN PLOTS' ,title)
         elif docs.type=='booked': 
             sheet.write('C1:D1', 'SITARA GREEN CITY' ,title)
-            sheet.write('C2:D2', 'DETAIL OF BOOKED PLOTS' ,title)
+            sheet.write('C2:D2', 'BOOKED PLOTS' ,title)
         elif docs.type=='un_posted_sold': 
             sheet.write('C1:D1', 'SITARA GREEN CITY' ,title)
-            sheet.write('C2:D2', 'DETAIL OF SOLD PLOTS' ,title)
+            sheet.write('C2:D2', 'ALLOTED PLOTS' ,title)
         elif docs.type=='posted_sold': 
             sheet.write('C1:D1', 'SITARA GREEN CITY' ,title)
             sheet.write('C2:D2', 'DETAIL OF ALL PLOTS' ,title)
@@ -148,7 +148,7 @@ class PlotDetailXlS(models.AbstractModel):
             elif plt.state=='unconfirm':
                 plot_status='Un-Confirm'
             elif plt.state=='reserved':
-                plot_status='Reserved'
+                plot_status='Token'
             elif plt.state=='booked':
                 plot_status='Booked'
             elif plt.state=='un_posted_sold':
