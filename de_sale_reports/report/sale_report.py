@@ -70,7 +70,7 @@ class PlotStatusXlS(models.AbstractModel):
                 for pl in phase_plots:
                     total_number_of_plots += 1
                     total_number_of_marlas += pl.plot_area_marla
-                    plot_payments = self.env['account.payment'].search([('plot_id','=',pl.id),('state','=','posted')])
+                    plot_payments = self.env['account.payment'].search([('plot_id','=',pl.id),('state','=','posted'),('date','>=',docs.date_from),('date','<=',docs.date_to)])
                     for plt_pay in plot_payments:
                         total_number_of_plot_price += plt_pay.amount
                 
