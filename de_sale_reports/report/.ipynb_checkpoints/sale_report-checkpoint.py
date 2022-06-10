@@ -43,13 +43,17 @@ class PlotStatusXlS(models.AbstractModel):
         sheet.set_column(2, 2, 20)
         sheet.set_column(3, 3, 20)
         sheet.set_column(4, 4, 20)
-            
+       
         sheet.write(2,0,'Phase', header_row_style)
         sheet.write(2,1 , 'Category',header_row_style)
         sheet.write(2,2 , 'No Of Plots',header_row_style)
         sheet.write(2,3 , "Total Marla's",header_row_style)
         sheet.write(2,4 , "Sale Price",header_row_style)
         row = 3
+        all_grand_total_number_of_plot_price=0
+        all_grand_total_number_of_marlas=0
+        all_grand_total_number_of_plots=0
+        
         for phase in uniq_location_list:
             phase_count=0
             grand_total_number_of_plots = 0
@@ -80,14 +84,25 @@ class PlotStatusXlS(models.AbstractModel):
                 grand_total_number_of_plots += total_number_of_plots
                 sheet.write(row, 3, round(total_number_of_marlas,2), format2)
                 grand_total_number_of_marlas += total_number_of_marlas
-                sheet.write(row, 4, round(total_number_of_plot_price,2), format2)
+                sheet.write(row, 4, '{0:,}'.format(int(round(total_number_of_plot_price))), format2)
                 grand_total_number_of_plot_price += total_number_of_plot_price
                 row += 1
                 
             sheet.write(row, 0, str(), header_row_style)
             sheet.write(row, 1, str(), header_row_style) 
             sheet.write(row, 2, '{0:,}'.format(int(round(grand_total_number_of_plots))),  header_row_style)
-            sheet.write(row, 3, '{0:,}'.format(int(round(grand_total_number_of_marlas))),  header_row_style)
+            all_grand_total_number_of_plots += grand_total_number_of_plots
+            sheet.write(row, 3, round(grand_total_number_of_marlas,2),  header_row_style)
+            all_grand_total_number_of_marlas += grand_total_number_of_marlas
             sheet.write(row, 4, '{0:,}'.format(int(round(grand_total_number_of_plot_price))),  header_row_style)
+            all_grand_total_number_of_plot_price += grand_total_number_of_plot_price
             row += 1
+            
+            
+        sheet.write(row, 0, 'Grand Total', header_row_style)
+        sheet.write(row, 1, str(), header_row_style) 
+        sheet.write(row, 2, '{0:,}'.format(int(round(all_grand_total_number_of_plots))),  header_row_style)
+        sheet.write(row, 3, round(all_grand_total_number_of_marlas,2),  header_row_style)
+        sheet.write(row, 4, '{0:,}'.format(int(round(all_grand_total_number_of_plot_price))),  header_row_style)
+        row += 1     
             

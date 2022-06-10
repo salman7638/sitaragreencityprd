@@ -8,7 +8,7 @@ class AccLedgerWizard(models.Model):
     _description = 'Account Ledger Wizard'
     
     
-    date_from = fields.Date(string='Date From', required=True,  default=fields.date.today() )
+    date_from = fields.Date(string='Date From', required=True,  default=fields.date.today().replace(day=1) )
     date_to = fields.Date(string='Date To', required=True,  default=fields.date.today() )
     
     def check_report(self):
