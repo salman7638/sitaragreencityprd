@@ -53,7 +53,7 @@ class PlotStatusXlS(models.AbstractModel):
         sheet.write(2,2 , 'No Of Plots',header_row_style)
         sheet.write(2,3 , "Total Marla's",header_row_style)
         sheet.write(2,4 , "Sale Price",header_row_style)
-        sheet.write(2,5 , 'Cofrimed Plots Sale',header_row_style) 
+        sheet.write(2,5 , 'Confirmed Plots Sale',header_row_style) 
         sheet.write(2,6 , "Booked Plots Sale",header_row_style)
         sheet.write(2,7 , 'Sold Plots Sale',header_row_style)
         sheet.write(2,8 , "Confirmed Plots",header_row_style)
