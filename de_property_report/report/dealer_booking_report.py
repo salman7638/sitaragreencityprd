@@ -54,11 +54,11 @@ class DealerReportXlS(models.AbstractModel):
             dealer_list = []
             dealer_plots = self.env['product.product'].search([('state','not in',('unconfirm','available')),('booking_id','!=',False),('booking_id.dealer_id','!=', False) ])
             for dealer in dealer_plots: 
-                dealer_list.append(dealer.booking_id.partner_id.id)  
+                dealer_list.append(dealer.booking_id.dealer_id.id)  
             uniq_dealer_list = set(dealer_list)  
             summary_sr_no = 1
             for uniq_dealer in uniq_dealer_list:
-                dealer_plots_details = self.env['product.product'].search([('booking_id','!=',False),('booking_id.dealer_id','=', uniq_dealer) ])
+                dealer_plots_details = self.env['product.product'].search([('state','not in',('unconfirm','available')),('booking_id','!=',False),('booking_id.dealer_id','=', uniq_dealer) ])
                 dealer_vals = self.env['res.partner'].search([('id','=',uniq_dealer)], limit=1)
                 number_of_plots = 0
                 number_of_plots_marlas = 0
