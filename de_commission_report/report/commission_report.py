@@ -36,6 +36,8 @@ class PlotDetailXlS(models.AbstractModel):
         sheet.write(2, 3, 'Dealer Name', header_row_style)
         sheet.write(2, 4, "Commission", header_row_style)
         sheet.write(2, 5, "Commission Payment Date", header_row_style)
+        sheet.write(2, 6, "Dealer Phone", header_row_style)
+        sheet.write(2, 7, "Dealer Mobile", header_row_style)
         row = 3
 
 
@@ -64,8 +66,8 @@ class PlotDetailXlS(models.AbstractModel):
                     if line.product_id.name == plt.name:
                         sheet.write(row, col_no, str(line.commission_date if line.commission_date else ' '), format2)
                         col_no += 1
-
-
+                sheet.write(row, col_no, str(plt.phone), format2)
+                sheet.write(row, col_no, str(plt.mobile), format2)
                 col_no =0
                 sr_no += 1
                 row += 1
