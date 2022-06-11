@@ -34,17 +34,20 @@ class PlotStatusXlS(models.AbstractModel):
         uniq_location_list = set(plot_location_list)  
         uniq_category_list = set(plot_categories)
         
+        sheet.write('C1:D1', 'SITARA GREEN CITY' ,title)
+        sheet.write('C2:D2', 'COMMISSION REPORT' ,title)
+
         sheet.set_column(1, 1, 20)
         sheet.set_column(2, 2, 20)
         sheet.set_column(3, 3, 20)
         sheet.set_column(4, 4, 20)
        
-        sheet.write(2,0,'Phase', header_row_style)
-        sheet.write(2,1 , 'Category',header_row_style)
-        sheet.write(2,2 , 'No Of Plots',header_row_style)
-        sheet.write(2,3 , "Total Marla's",header_row_style)
-        sheet.write(2,4 , "Sale Price",header_row_style)
-        row = 3
+        sheet.write(3,0,'Phase', header_row_style)
+        sheet.write(3,1 , 'Category',header_row_style)
+        sheet.write(3,2 , 'No Of Plots',header_row_style)
+        sheet.write(3,3 , "Total Marla's",header_row_style)
+        sheet.write(3,4 , "Sale Price",header_row_style)
+        row = 4
         all_grand_total_number_of_plot_price=0
         all_grand_total_number_of_marlas=0
         all_grand_total_number_of_plots=0
