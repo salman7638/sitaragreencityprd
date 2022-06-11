@@ -66,14 +66,11 @@ class PlotStatusXlS(models.AbstractModel):
                 total_number_of_plots = 0
                 total_number_of_plot_price = 0
                 plot_category = self.env['product.category'].search([('id','=', categ)], limit=1)
-                phase_plots = self.env['product.product'].search([('id','in',plot_list),('categ_id','=', plot_category.id),('property_location_id.location_id','=',plot_phase.id),('state' ,'not in',('available','unconfirm'))] )
+                phase_plots = self.env['product.product'].search([('booking_validity','>=',docs.date_from),('booking_validity','<=',docs.date_to),('categ_id','=', plot_category.id),('property_location_id.location_id','=',plot_phase.id),('state' ,'not in',('available','unconfirm'))] )
                 for pl in phase_plots:
                     total_number_of_plots += 1
                     total_number_of_marlas += pl.plot_area_marla
-                    plot_payments = self.env['account.payment'].search([('plot_id','=',pl.id),('state','=','posted'),('date','>=',docs.date_from),('date','<=',docs.date_to)])
-                    for plt_pay in plot_payments:
-                        total_number_of_plot_price += plt_pay.amount
-                
+                    
                 if phase_count==0:
                     sheet.write(row, 0, str(plot_phase.name), format2)
                     phase_count += 1
