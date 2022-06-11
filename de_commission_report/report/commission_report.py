@@ -29,8 +29,8 @@ class PlotDetailXlS(models.AbstractModel):
         sheet.set_column(3, 3, 25)
         sheet.set_column(4, 4, 25)
         sheet.set_column(5, 5, 25)
-        sheet.set_column(5, 5, 25)
-        sheet.set_column(5, 5, 25)
+        sheet.set_column(6, 6, 25)
+        sheet.set_column(7, 7, 25)
 
         sheet.write(2, 0, 'SR NO', header_row_style)
         sheet.write(2, 1, 'Plot No', header_row_style)
