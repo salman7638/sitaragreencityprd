@@ -115,7 +115,7 @@ class DealerReportXlS(models.AbstractModel):
             sheet.write(2,8 , 'AMOUNT DUE',header_row_style)
             sheet.write(2,9 , 'REMARKS',header_row_style)
 
-            dealer_plots = self.env['product.product'].search([('state','in',('unconfirm','reserved','booked','un_posted_sold','posted_sold')),('date_validity', '>=' , docs.date_from),('date_validity', '<=' , docs.date_to),('booking_id.dealer_id','!=', True),('booking_id','!=', False) ]) 
+            dealer_plots = self.env['product.product'].search([('state','in',('unconfirm','reserved','booked','un_posted_sold','posted_sold')),('date_validity', '>=' , docs.date_from),('booking_id','!=', False),('date_validity', '<=' , docs.date_to),('booking_id.dealer_id','!=', False) ]) 
             detail_sr_no = 1
             total_price_detail = 0
             total_amount_paid = 0
