@@ -122,9 +122,9 @@ class DealerReportXlS(models.AbstractModel):
             total_amount_residual = 0
             for plt_d in dealer_plots:
                 sheet.write(row,0,  str(detail_sr_no), format2)
-                sheet.write(row,1 , str(plt_d.partner_id.name),format2)
-                sheet.write(row,2 , str(plt_d.partner_id.phone),format2)
-                sheet.write(row,3 , str(plt_d.partner_id.mobile),format2)
+                sheet.write(row,1 , str(plt_d.booking_id.dealer_id.name),format2)
+                sheet.write(row,2 , str(plt_d.booking_id.dealer_id.phone),format2)
+                sheet.write(row,3 , str(plt_d.booking_id.dealer_id.mobile),format2)
                 sheet.write(row,4 , str(plt_d.name),format2)
                 sheet.write(row,5 , str(round(plt_d.plot_area_marla)),format2) 
                 sheet.write(row,6 , str('{0:,}'.format(int(round(plt_d.list_price)))),format2)
