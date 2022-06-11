@@ -52,13 +52,13 @@ class DealerReportXlS(models.AbstractModel):
             gtotal_amount_residual = 0
             row = 3
             dealer_list = []
-            dealer_plots = self.env['product.product'].search([('state','in',('unconfirm','reserved','booked','un_posted_sold','posted_sold')),('booking_id.dealer_id','!=', True) ])
+            dealer_plots = self.env['product.product'].search([('state','not in',('unconfirm','available')),('booking_id','!=',False),('booking_id.dealer_id','!=', True) ])
             for dealer in dealer_plots: 
                 dealer_list.append(dealer.booking_id.partner_id.id)  
             uniq_dealer_list = set(dealer_list)  
             summary_sr_no = 1
             for uniq_dealer in uniq_dealer_list:
-                dealer_plots_details = self.env['product.product'].search([('state','in',('unconfirm','reserved','booked','un_posted_sold','posted_sold')),('booking_id.dealer_id ','=', uniq_dealer) ])
+                dealer_plots_details = self.env['product.product'].search([('state','in',('unconfirm','reserved','booked','un_posted_sold','posted_sold')),('booking_id','!=',False),('booking_id.dealer_id ','=', uniq_dealer) ])
                 dealer_vals = self.env['res.partner'].search([('id','=',uniq_dealer)], limit=1)
                 number_of_plots = 0
                 number_of_plots_marlas = 0
@@ -109,12 +109,13 @@ class DealerReportXlS(models.AbstractModel):
             sheet.write(2,2 , 'DEALER PHONE',header_row_style)
             sheet.write(2,3 , 'DEALER CONTACT',header_row_style)
             sheet.write(2,4 , 'PLOT',header_row_style)
-            sheet.write(2,5 , "TOTAL AMOUNT",header_row_style)
-            sheet.write(2,6, 'AMOUNT RECEIVED',header_row_style)
-            sheet.write(2,7 , 'AMOUNT DUE',header_row_style)
-            sheet.write(2,8 , 'REMARKS',header_row_style)
+            sheet.write(2,5 , 'AREA IN MARLA',header_row_style)
+            sheet.write(2,6 , "TOTAL AMOUNT",header_row_style)
+            sheet.write(2,7, 'AMOUNT RECEIVED',header_row_style)
+            sheet.write(2,8 , 'AMOUNT DUE',header_row_style)
+            sheet.write(2,9 , 'REMARKS',header_row_style)
 
-            dealer_plots = self.env['product.product'].search([('state','in',('unconfirm','reserved','booked','un_posted_sold','posted_sold')),('date_validity', '>=' , docs.date_from),('date_validity', '<=' , docs.date_to),('partner_id.active_dealer','=', True) ]) 
+            dealer_plots = self.env['product.product'].search([('state','in',('unconfirm','reserved','booked','un_posted_sold','posted_sold')),('date_validity', '>=' , docs.date_from),('date_validity', '<=' , docs.date_to),('booking_id.dealer_id','!=', True),('booking_id','!=', True) ]) 
             detail_sr_no = 1
             total_price_detail = 0
             total_amount_paid = 0
@@ -125,13 +126,14 @@ class DealerReportXlS(models.AbstractModel):
                 sheet.write(row,2 , str(plt_d.partner_id.phone),format2)
                 sheet.write(row,3 , str(plt_d.partner_id.mobile),format2)
                 sheet.write(row,4 , str(plt_d.name),format2)
-                sheet.write(row,5 , str('{0:,}'.format(int(round(plt_d.list_price)))),format2)
+                sheet.write(row,5 , str(round(plt_d.plot_area_marla)),format2) 
+                sheet.write(row,6 , str('{0:,}'.format(int(round(plt_d.list_price)))),format2)
                 total_price_detail += plt_d.list_price
-                sheet.write(row,6 , str('{0:,}'.format(int(round(plt_d.amount_paid)))),format2)
+                sheet.write(row,7 , str('{0:,}'.format(int(round(plt_d.amount_paid)))),format2)
                 total_amount_paid += plt_d.amount_paid
-                sheet.write(row,7 , str('{0:,}'.format(int(round(plt_d.amount_residual)))),format2)
+                sheet.write(row,8 , str('{0:,}'.format(int(round(plt_d.amount_residual)))),format2)
                 total_amount_residual += plt_d.amount_residual
-                sheet.write(row,8 , str(),format2)
+                sheet.write(row,9 , str(),format2)
                 detail_sr_no += 1
                 row += 1
                 
@@ -140,8 +142,9 @@ class DealerReportXlS(models.AbstractModel):
             sheet.write(row,2 , str(),header_row_style)
             sheet.write(row,3 , str(),header_row_style)
             sheet.write(row,4 , str(),header_row_style)
-            sheet.write(row,5 , str('{0:,}'.format(int(round(total_price_detail)))),header_row_style)
-            sheet.write(row,6 , str('{0:,}'.format(int(round(total_amount_paid)))),header_row_style)
-            sheet.write(row,7 , str('{0:,}'.format(int(round(total_amount_residual)))),header_row_style)
-            sheet.write(row,8 , str(),header_row_style)
+            sheet.write(row,5 , str(),header_row_style)
+            sheet.write(row,6 , str('{0:,}'.format(int(round(total_price_detail)))),header_row_style)
+            sheet.write(row,7 , str('{0:,}'.format(int(round(total_amount_paid)))),header_row_style)
+            sheet.write(row,8 , str('{0:,}'.format(int(round(total_amount_residual)))),header_row_style)
+            sheet.write(row,9 , str(),header_row_style)
             
