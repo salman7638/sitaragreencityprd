@@ -24,7 +24,7 @@
     'version': '15.0.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','sale','de_sale_booking','de_property_payments','de_property','report_xlsx'],
+    'depends': ['base','sale','de_sale_booking','de_property_payments','de_property','report_xlsx','de_dealer'],
 
     # always loaded
     'data': [
