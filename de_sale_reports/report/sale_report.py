@@ -70,7 +70,7 @@ class PlotStatusXlS(models.AbstractModel):
                 for pl in phase_plots:
                     total_number_of_plots += 1
                     total_number_of_marlas += pl.plot_area_marla
-                    total_number_of_marlas += pl.list_price
+                    total_number_of_plot_price += pl.list_price
                     
                 if phase_count==0:
                     sheet.write(row, 0, str(plot_phase.name), format2)
