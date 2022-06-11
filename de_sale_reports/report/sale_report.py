@@ -20,11 +20,6 @@ class PlotStatusXlS(models.AbstractModel):
         format2 = workbook.add_format({'align': 'center'})
         format3 = workbook.add_format({'align': 'center','bold': True,'border': True,})  
         
-        plot_list = []
-        plot_payments_list = self.env['account.payment'].search([('state','=','posted'),('date','>=',docs.date_from),('date','<=',docs.date_to)])
-        for plt_paym in plot_payments_list:
-            plot_list.append(plt_paym.plot_id.id)
-            
         plots = self.env['product.product'].search([])
         plot_location_list = []
         plot_location = self.env['op.property.location'].search([])
@@ -53,7 +48,8 @@ class PlotStatusXlS(models.AbstractModel):
         all_grand_total_number_of_plot_price=0
         all_grand_total_number_of_marlas=0
         all_grand_total_number_of_plots=0
-        
+        total_number_of_marlas = 0
+        total_number_of_plots = 0
         for phase in uniq_location_list:
             phase_count=0
             grand_total_number_of_plots = 0
@@ -63,8 +59,8 @@ class PlotStatusXlS(models.AbstractModel):
             total_number_of_plots = 0
             plot_phase = self.env['op.property.location'].search([('id','=', phase)], limit=1)
             for categ in uniq_category_list:
+                total_number_of_marlas = 0
                 total_number_of_plots = 0
-                total_number_of_plot_price = 0
                 plot_category = self.env['product.category'].search([('id','=', categ)], limit=1)
                 phase_plots = self.env['product.product'].search([('booking_validity','>=',docs.date_from),('booking_validity','<=',docs.date_to),('categ_id','=', plot_category.id),('property_location_id.location_id','=',plot_phase.id),('state' ,'not in',('available','unconfirm'))] )
                 for pl in phase_plots:
