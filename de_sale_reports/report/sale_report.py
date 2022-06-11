@@ -55,12 +55,12 @@ class PlotStatusXlS(models.AbstractModel):
             grand_total_number_of_plots = 0
             grand_total_number_of_marlas = 0
             grand_total_number_of_plot_price = 0
-            total_number_of_marlas = 0
-            total_number_of_plots = 0
+
             plot_phase = self.env['op.property.location'].search([('id','=', phase)], limit=1)
             for categ in uniq_category_list:
                 total_number_of_marlas = 0
                 total_number_of_plots = 0
+                total_number_of_plot_price = 0
                 plot_category = self.env['product.category'].search([('id','=', categ)], limit=1)
                 phase_plots = self.env['product.product'].search([('booking_validity','>=',docs.date_from),('booking_validity','<=',docs.date_to),('categ_id','=', plot_category.id),('property_location_id.location_id','=',plot_phase.id),('state' ,'not in',('available','unconfirm'))] )
                 for pl in phase_plots:
