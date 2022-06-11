@@ -15,7 +15,7 @@ class PlotStatusXlS(models.AbstractModel):
         docs = self.env['acc.ledger.wizard'].browse(self.env.context.get('active_id'))
         sheet = workbook.add_worksheet('Property Sale Report')
         bold = workbook. add_format({'bold': True, 'align': 'center','bg_color': '#FFFF99','border': True})
-        title = workbook.add_format({'bold': True, 'align': 'center', 'font_size': 20, 'bg_color': '#FFFF99', 'border': True})
+        title = workbook.add_format({'bold': True, 'align': 'center', 'font_size': 15, 'bg_color': '#FFFF99', 'border': True})
         header_row_style = workbook.add_format({'bold': True, 'align': 'center', 'border':True})
         format2 = workbook.add_format({'align': 'center'})
         format3 = workbook.add_format({'align': 'center','bold': True,'border': True,})  
@@ -34,8 +34,8 @@ class PlotStatusXlS(models.AbstractModel):
         uniq_location_list = set(plot_location_list)  
         uniq_category_list = set(plot_categories)
         
-        sheet.write('A1:B1', str(docs.date_from.strftime('%d-%b-%Y')) ,title)
-        sheet.write('A2:B2', str(docs.date_from.strftime('%d-%b-%Y')) ,title)
+        sheet.write('B1:D1', str(docs.date_from.strftime('%d-%b-%Y')) ,title)
+        sheet.write('B2:D2', str(docs.date_from.strftime('%d-%b-%Y')) ,title)
 
         sheet.set_column(1, 1, 20)
         sheet.set_column(2, 2, 20)
