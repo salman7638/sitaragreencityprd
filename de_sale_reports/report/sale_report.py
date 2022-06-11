@@ -34,8 +34,8 @@ class PlotStatusXlS(models.AbstractModel):
         uniq_location_list = set(plot_location_list)  
         uniq_category_list = set(plot_categories)
         
-        sheet.write('C1:D1', 'SITARA GREEN CITY' ,title)
-        sheet.write('C2:D2', 'COMMISSION REPORT' ,title)
+        sheet.write('A1:B1', str(docs.date_from.strftime('%d-%b-%Y')) ,title)
+        sheet.write('A2:B2', str(docs.date_from.strftime('%d-%b-%Y')) ,title)
 
         sheet.set_column(1, 1, 20)
         sheet.set_column(2, 2, 20)
