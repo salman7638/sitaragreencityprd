@@ -35,7 +35,7 @@ class PlotStatusXlS(models.AbstractModel):
         uniq_category_list = set(plot_categories)
         
         sheet.write('B1:D1', str(docs.date_from.strftime('%d-%b-%Y')) ,title)
-        sheet.write('B2:D2', str(docs.date_from.strftime('%d-%b-%Y')) ,title)
+        sheet.write('B2:D2', str(docs.date_to.strftime('%d-%b-%Y')) ,title)
 
         sheet.set_column(1, 1, 20)
         sheet.set_column(2, 2, 20)
